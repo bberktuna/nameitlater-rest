@@ -5,6 +5,9 @@ const app = express();
 // * CONNECT DB
 connectDB();
 
+// ! INIT MIDDLEWARE
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) => res.send("api runnin"));
 
 // ! DEFINE ROUTES

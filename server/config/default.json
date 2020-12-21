@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://new-user-31:zy9SmMPizEjATbm4@cluster0.1ibyb.mongodb.net/<dbname>?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://new-user-31:zy9SmMPizEjATbm4@cluster0.1ibyb.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "1$i'!^+'.v4k21!'#>£>"
 }
