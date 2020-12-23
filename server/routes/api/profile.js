@@ -5,7 +5,6 @@ const { body, validationResult } = require("express-validator");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
-const { remove } = require("../../models/Profile");
 
 // @route   GET api/profile/me
 // @des     Get currnet users profile
