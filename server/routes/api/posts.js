@@ -101,4 +101,64 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+//! @route PUT api/like/:id
+//! @desc Like a post
+//! @access Private
+router.put("/like/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id); //url yüzünden req.params.id den alıyoruz
+
+    // Check if the user already liked the post
+    if (
+      // prettier-ignore
+      post.likes.filter(
+        like => like.user.toString() === req.user.id).length > 0
+    ) {
+      //req.user.id logged in user
+      return res.status(400).json({ msg: "Post already liked" });
+    }
+
+    post.likes.unshift({ user: req.user.id });
+
+    await post.save(); // save it to db
+
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Like error");
+  }
+});
+
+//! @route PUT api/unlike/:id
+//! @desc Unlike a post
+//! @access Private
+router.put("/unlike/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id); //url yüzünden req.params.id den alıyoruz
+
+    // Check if the user already liked the post
+    if (
+      // prettier-ignore
+      post.likes.filter(
+          like => like.user.toString() === req.user.id).length === 0
+    ) {
+      //req.user.id logged in user
+      return res.status(400).json({ msg: "Post has not been liked" });
+    }
+
+    // Get remove index
+    const removeIndex = post.likes
+      .map((like) => like.user.toString())
+      .indexOf(req.user.id);
+
+    post.likes.splice(removeIndex, 1);
+
+    await post.save(); // save it to db
+
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Like error");
+  }
+});
 module.exports = router;
