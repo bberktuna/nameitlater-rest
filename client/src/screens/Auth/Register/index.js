@@ -7,10 +7,12 @@ import {
   SafeAreaView,
 } from "react-native";
 import { TextInput } from "react-native-paper";
+import { connect } from "react-redux";
+import { setAlert } from "../../../redux/actions/alert";
 
 import styles from "./styles";
 
-const Register = ({ navigation }) => {
+const Register = (props, { navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ const Register = ({ navigation }) => {
 
   const onSubmit = async () => {
     if (password !== password2) {
-      console.log("Password do not match");
+      props.setAlert("Password do not match", "danger");
     } else {
       console.log("success");
     }
@@ -58,14 +60,11 @@ const Register = ({ navigation }) => {
         label="Confirm Password"
         mode="outlined"
       />
-      <TouchableOpacity
-        onPress={() => navigation.replace("Login")}
-        style={styles.registerButton}
-      >
+      <TouchableOpacity onPress={onSubmit} style={styles.registerButton}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
 
-      <View style={deepBottom}>
+      <View style={styles.deepBottom}>
         <TouchableOpacity
           onPress={onSubmit}
           style={styles.alreadyHaveAnAccount}
@@ -77,4 +76,4 @@ const Register = ({ navigation }) => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert })(Register);
